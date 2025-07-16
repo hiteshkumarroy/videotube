@@ -4,7 +4,9 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {uploadOnCloudinary,deleteFromCloudinary} from "../utils/cloudinary.js";
 
-const userController=asyncHandler( async(req,res)=>{
+
+
+const registerUser=asyncHandler( async(req,res)=>{
   let coverimageResponse=null;
   let avatarResponse=null;
  try{
@@ -19,6 +21,7 @@ if([username,email,fullname,password].some((item)=>item.trim()===""
 //check if user already exists
 const check= await User.findOne(
 {  $or:[{email,username}] });
+console.log(check);
 if(check){throw new ApiError(400,"username or email already exist")};
 
 //upload images and if images are not there than handle it
@@ -69,4 +72,5 @@ console.log(error);
 })
 
 
-export {userController};
+
+export {registerUser};

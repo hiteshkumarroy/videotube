@@ -69,14 +69,15 @@ next();
 })
 //to check is entered password correct
 userSchema.methods.isPasswordCorrect=async function(password){
+
 //check here param of comparefn can we swap it??
-  return await bcrypt.compare(this.password,password);
+  return await bcrypt.compare(password,this.password);
 
 }
 // generate access token
 userSchema.methods.generateAccessToken=function(){
   //short lived access token
-jwt.sign({
+return jwt.sign({
   _id:this._id,
   email:this.email,
   username:this.username,
@@ -90,7 +91,7 @@ process.env.ACCESS_TOKEN_SECRET,
 }
 
 userSchema.methods.genRefreshToken=function(){
-jwt.sign({
+return jwt.sign({
   _id:this._id,
 },
 process.env.REFRESH_TOKEN_SECRET,
