@@ -16,11 +16,15 @@ app.use(cors({
 //import routes
 import { healthcheckRouter } from "./routes/healthcheck.routes.js"; 
 import { loginRoute } from "./routes/login.routes.js";
+import { logoutRoute } from "./routes/logout.routes.js";
+import { jwtVerify } from "./middlewares/auth.middlewares.js";
 
 app.use("/api/v1/healthcheck",
   healthcheckRouter);
   
   app.use("/api/v1/user",userRoute);
-  app.use("/api/v1/user",loginRoute)
+  app.use("/api/v1/user",loginRoute);
+  app.use("/api/v1/user",jwtVerify,logoutRoute);
+  
 
 export {app}
