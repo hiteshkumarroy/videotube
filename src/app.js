@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from 'cookie-parser';
-import {userRoute} from "./routes/registerUser.routes.js";
+
 import dotenv from "dotenv";
 dotenv.config();
 const app=express();
@@ -15,16 +15,13 @@ app.use(cors({
 
 //import routes
 import { healthcheckRouter } from "./routes/healthcheck.routes.js"; 
-import { loginRoute } from "./routes/login.routes.js";
-import { logoutRoute } from "./routes/logout.routes.js";
-import { jwtVerify } from "./middlewares/auth.middlewares.js";
+
+import { userRoute } from "./routes/userroutes.routes.js";
 
 app.use("/api/v1/healthcheck",
   healthcheckRouter);
-  
   app.use("/api/v1/user",userRoute);
-  app.use("/api/v1/user",loginRoute);
-  app.use("/api/v1/user",jwtVerify,logoutRoute);
+
   
 
 export {app}
