@@ -1,12 +1,18 @@
 
 import { asyncHandler } from "../utils/asyncHandler.js"
+import express from 'express';
+const app = express();
 
+// Add these before your routes
+app.use(express.json()); // For JSON bodies
+app.use(express.urlencoded({ extended: true })); // For form data
 import { User } from "../models/user.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import {uploadOnCloudinary,deleteFromCloudinary} from "../utils/cloudinary.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+
 dotenv.config();
 
 
@@ -242,7 +248,39 @@ const getCurrentUser=asyncHandler(async(req,res)=>{
 
 })
 
+
 const updateAccountDetails=asyncHandler(async(req,res)=>{
+
+  try{
+    const user=req.user;
+     console.log(req.body);
+    const {fullname,email}=req.body;
+
+     if (!fullname || !email) {
+      throw new ApiError(400, "All fields are required");
+    }
+   
+    const response=await User.findByIdAndUpdate(
+      user._id,
+      {
+        $set:{
+          fullname,
+          email
+        }
+      },{
+        new:true
+      }
+    ).select("-password -refreshtoken");
+    
+    if(response.username!=user.username){
+      throw new ApiError(400,"error in updating user details");
+    }
+
+     res.status(200).send(new ApiResponse(200,response,"details updated successfuly"));
+  }catch(error){
+    res.status(error.statusCode || 500).send(new ApiResponse(error.statusCode,error.message));
+  }
+
 
 })
 
