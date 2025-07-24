@@ -231,6 +231,15 @@ res.status(error.statusCode || 500).send(new ApiResponse(error.statusCode || 500
 
 const getCurrentUser=asyncHandler(async(req,res)=>{
 
+  try{
+    const user=req.user;
+    const response=await User.findById(user._id).select("-password -refreshtoken");
+
+    res.status(200).send(new ApiResponse(200,response,"here is  user details"));
+  }catch(error){
+    res.status(error.statusCode || 500).send(new ApiResponse(error.statusCode||500,error.message));
+  }
+
 })
 
 const updateAccountDetails=asyncHandler(async(req,res)=>{
