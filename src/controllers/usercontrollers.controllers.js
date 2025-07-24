@@ -199,6 +199,33 @@ console.log(error);
 //new apis
 const changeCurrentPassword=asyncHandler(async(req,res)=>{
 
+  try{
+const {currentPassword,newPassword}=req.body;
+const userId=req.user._id;
+const user=await User.findById(userId);
+const isCorrect =await user.isPasswordCorrect(currentPassword);
+
+if(!isCorrect)throw new ApiError(400,"current password is incorrect");
+
+user.password=newPassword;
+await user.save();
+
+const response=await User.findById(userId).select("-password -refreshtoken");
+
+console.log(response);
+if(response.username!=user.username)
+ throw new ApiError(400,"error in finding user");
+
+
+res.status(200).send(new ApiResponse(200,response,"password updated successfuly"));
+
+
+
+  }catch(error){
+
+    console.log(error);
+res.status(error.statusCode || 500).send(new ApiResponse(error.statusCode || 500,error.message));
+  }
 })
 
 
