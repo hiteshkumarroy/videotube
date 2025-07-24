@@ -286,11 +286,71 @@ const updateAccountDetails=asyncHandler(async(req,res)=>{
 
 
 const updateUserAvatar=asyncHandler(async(req,res)=>{
+  try{
+  const localFilePath=req.file?.path;
+  if(!localFilePath){
+   throw new ApiError(400,"avatar local path is incorrect"); 
+  }
+  const response=await uploadOnCloudinary(localFilePath);
+
+  if(!response){
+    throw new ApiError(400,"error in uploading avatar");
+  }
+ 
+
+ 
+
+  const userRes=await User.findByIdAndUpdate(
+    req.user._id,
+    {$set:{
+      avatar:response.url
+    }},
+    {new:true}
+  ).select("-password -refreshtoken");
+
+  if(!userRes){
+throw new ApiError(400,"error in updating avatar");
+  }
+  res.status(200).send(new ApiResponse(200,userRes,"avatar updated successfuly"));
+
+  }catch(error){
+res.status(error.statusCode).send(new ApiResponse(error.statusCode,error.message));
+  }
 
 })
 
 
 const updateUserCoverImage=asyncHandler(async(req,res)=>{
+try{
+const user=req.user;
+  const localFilePath=req.file?.path;
+
+  if(!localFilePath){
+throw new ApiError(400,"coverimage local path is incorrect"); 
+  }
+  const reponse=await uploadOnCloudinary(localFilePath);
+  if(!reponse){
+throw new ApiError(400,"error in uploading cover image"); 
+  }
+  const userRes=await User.findByIdAndUpdate(
+user._id,
+{
+  $set:{coverimage:reponse.url}
+},{
+  new:true
+}
+  ).select("-password -refreshtoken");
+
+if(!userRes){
+throw new ApiError(400,"error in updating cover image"); 
+}
+ res.status(200).send(new ApiResponse(200,userRes,"cover image updated successfuly"));
+
+}catch(error){
+
+res.status(error.statusCode).send(new ApiResponse(error.statusCode,error.message));
+}
+
 
 })
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {upload} from "../middlewares/multer.middlewares.js";
 
-import { changeCurrentPassword, getCurrentUser, loginUser, logoutController, registerUser, updateAccountDetails } from "../controllers/usercontrollers.controllers.js";
+import { changeCurrentPassword, getCurrentUser, loginUser, logoutController, registerUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage } from "../controllers/usercontrollers.controllers.js";
 import { jwtVerify } from "../middlewares/auth.middlewares.js";
 const userRoute=Router();
 
@@ -22,6 +22,12 @@ userRoute.route('/login').post(loginUser);
 userRoute.route('/changePassword').put(jwtVerify,changeCurrentPassword);
 userRoute.route('/userDetails').get(jwtVerify,getCurrentUser);
 userRoute.route('/updatedetails').put(jwtVerify,updateAccountDetails);
+userRoute.route('/updateavatar').put(jwtVerify,
+  upload.single("avatar"),
+  updateUserAvatar);
+userRoute.route('/updatecoverimage').put(jwtVerify,
+  upload.single("coverimage"),
+  updateUserCoverImage);
 
 export {
   userRoute
