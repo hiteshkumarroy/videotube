@@ -356,9 +356,122 @@ res.status(error.statusCode).send(new ApiResponse(error.statusCode,error.message
 
 //getuserchannel
 //getwatchhistory
+const getUserChannelProfile=asyncHandler(async(req,res)=>{
+const {username}=req.params;
+if(!username?.trim()){
+  throw new ApiError(400,"userName invalid");
+}
 
+const channelData=await User.aggregate([
+  {
+    $match:{
+      username:username?.toLowerCase()
+    }
+  },
+  {
+    $lookup:{
+      from:"Subscription",
+      localField:"_id",
+      foreignField:"channel",
+      as:"subscribers"
+    }
+  },
+  {
+    $lookup:{
+      from:"Subscription",
+      localField:"_id",
+      foreignField:"subscribers",
+      as:"subscribedTo"
+    }
+  },{
+   $addFields:{
+    subscribersCount:{$size:"$subscribers"},
+    channelsSubscribedToCount:{$size:"$subscribedTo"},
+    isSubscribed: {
+                    $cond: {
+                        if: {$in: [req.user?._id, "$subscribers.subscriber"]},
+                        then: true,
+                        else: false
+                    }
+                }
+
+   }
+  },
+  {
+$project:{
+                fullname: 1,
+                username: 1,
+                subscribersCount: 1,
+                channelsSubscribedToCount: 1,
+                isSubscribed: 1,
+                avatar: 1,
+                coverimage: 1,
+                email: 1
+}
+  }
+])
+console.log(channelData);
+if(!channelData?.length){
+  throw new ApiError(400,"unable to find username");
+}
+res.status(200).send(new ApiResponse(200,channelData[0],"channel data successfully retrieved"));
+})
+
+const getWatchHistory=asyncHandler(async(req,res)=>{
+
+ const user = await User.aggregate([
+  {
+    $match: {
+      _id: req.user._id
+    }
+  },
+  {
+    $lookup: {
+      from: "videos",
+      localField: "watchhistory",  // Make sure this matches your User schema field name
+      foreignField: "_id",
+      as: "watchHistory",
+      pipeline: [
+        {
+          $lookup: {
+            from: "users",
+            localField: "owner",
+            foreignField: "_id",
+            as: "owner",
+            pipeline: [
+              {
+                $project: {
+                  fullname: 1,
+                  username: 1,
+                  avatar: 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          $addFields: {
+            owner: {
+              $first: "$owner"  // This should be inside the video pipeline
+            }
+          }
+        }
+      ]
+    }
+  }
+]);
+
+  if(!user){
+    throw new ApiError(400,"error in fetching watch history");
+  }
+  console.log(user[0]);
+  return res.status(200).json(new ApiResponse(200,user[0].watchHistory,"watch History fetched succesfuly"));
+
+
+})
 
 export {
+  getWatchHistory,
   registerUser,
   loginUser,
   generateNewAccessToken,
@@ -367,5 +480,6 @@ export {
   getCurrentUser,
   updateAccountDetails,
   updateUserAvatar,
-  updateUserCoverImage
+  updateUserCoverImage,
+  getUserChannelProfile
 }
