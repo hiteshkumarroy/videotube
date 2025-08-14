@@ -20,7 +20,7 @@ userRoute.route('/logout').post(jwtVerify,logoutController);
 
 userRoute.route('/login').post(loginUser);
 userRoute.route('/changePassword').put(jwtVerify,changeCurrentPassword);
-userRoute.route('/userDetails').get(jwtVerify,getCurrentUser);
+userRoute.route('/current-user').get(jwtVerify,getCurrentUser);
 userRoute.route('/updatedetails').put(jwtVerify,updateAccountDetails);
 userRoute.route('/updateavatar').put(jwtVerify,
   upload.single("avatar"),

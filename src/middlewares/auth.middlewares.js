@@ -6,16 +6,20 @@ import dotenv from "dotenv";
 import { ApiResponse } from "../utils/ApiResponse.js";
 dotenv.config();
 const jwtVerify=asyncHandler(async(req,res,next)=>{
+  // console.log("hii");
+  // console.log(req.cookies);
   try{
-const token=req.cookies.accessToken || req.header("Authorization")?.replace("Bearer ","");
+const token=req.cookies.accesstoken || req.header("Authorization")?.replace("Bearer ","");
 
 if(!token){
+  
+// console.log("hii")
   throw new ApiError(400,"invalid cookie");
 }
 
 const payload=jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
 
-console.log(payload)
+// console.log(payload)
 if(!payload){
   throw new ApiError(400,"invalid access token");
 }

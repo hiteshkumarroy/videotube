@@ -1,5 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { Video } from "../models/video.model.js";
+import { Video } from "../models/video.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -7,6 +7,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 // Get all videos with pagination, filtering, sorting
 const getAllVideos = asyncHandler(async (req, res) => {
+    // console.log("hiijii")
     const { page = 1, limit = 10, query = "", sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
     const match = {};
@@ -20,17 +21,65 @@ const getAllVideos = asyncHandler(async (req, res) => {
     const options = { page: parseInt(page), limit: parseInt(limit) };
 
     const videos = await Video.aggregatePaginate(aggregate, options);
-
+// console.log(videos);
     res.status(200).json(new ApiResponse(200, videos, "Videos fetched successfully"));
 });
+// const getAllVideos = asyncHandler(async (req, res) => {
+//     let { page = 1, limit = 10, query = "", sortBy = "createdAt", sortType = "desc", userId } = req.query;
+
+//     page = parseInt(page);
+//     limit = parseInt(limit);
+
+//     const match = {};
+//     if (query) {
+//         match.title = { $regex: query, $options: "i" }; // Case-insensitive search
+//     }
+//     if (userId && isValidObjectId(userId)) {
+//         match.owner = userId;
+//     }
+
+//     // Validate sortBy field
+//     const allowedSortFields = ["createdAt", "title", "views"];
+//     if (!allowedSortFields.includes(sortBy)) {
+//         sortBy = "createdAt";
+//     }
+
+//     const sort = { [sortBy]: sortType === "asc" ? 1 : -1 };
+
+//     // Count total videos for pagination
+//     const totalVideos = await Video.countDocuments(match);
+
+//     // Fetch paginated videos
+//     const videos = await Video.find(match)
+//         .sort(sort)
+//         .skip((page - 1) * limit)
+//         .limit(limit)
+//         .populate("owner", "username email");
+
+//     res.status(200).json(
+//         new ApiResponse(200, {
+//             totalVideos,
+//             page,
+//             totalPages: Math.ceil(totalVideos / limit),
+//             videos
+//         }, "Videos fetched successfully")
+//     );
+// });
+
 
 // Publish (upload) a new video
 const publishAVideo = asyncHandler(async (req, res) => {
+    console.log("hello");
     const { title, description } = req.body;
-    const videoFilePath = req.files?.videofile?.[0]?.path;
+    const videoFilePath = req.files?.videoFile?.[0]?.path;
     const thumbnailPath = req.files?.thumbnail?.[0]?.path;
 
     if (!title || !description || !videoFilePath || !thumbnailPath) {
+        console.log(title);
+        console.log(description);
+        console.log(videoFilePath);
+        console.log(thumbnailPath);
+        // console.log(title);
         throw new ApiError(400, "All fields are required");
     }
 

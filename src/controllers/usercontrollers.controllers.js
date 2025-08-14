@@ -25,8 +25,8 @@ const loginUser=asyncHandler(
   const {username,email,password}=req.body;
 
   //validation
-    if([username,email].some((val)=>val.trim()==="")){
-      throw new ApiError(400,"username and email both required");
+    if(!username && !email){
+      throw new ApiError(400,"username or email one is required");
     }
 ///findind either by username or email
     const newUser= await User.findOne({
@@ -236,7 +236,7 @@ res.status(error.statusCode || 500).send(new ApiResponse(error.statusCode || 500
 
 
 const getCurrentUser=asyncHandler(async(req,res)=>{
-
+console.log("profile");
   try{
     const user=req.user;
     const response=await User.findById(user._id).select("-password -refreshtoken");

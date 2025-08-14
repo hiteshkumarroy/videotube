@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { Comment } from "../models/comment.model.js"
+import { Comment } from "../models/comment.models.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
@@ -31,11 +31,11 @@ const addComment = asyncHandler(async (req, res) => {
     }
 
     const comment = await Comment.create({
-        videoId,
-        userId: req.user._id,
+        "video":videoId,
+       "owner": req.user._id,
         content
     })
-
+console.log(comment);
     res.status(201).json(new ApiResponse(201, comment, "Comment added"))
 })
 
