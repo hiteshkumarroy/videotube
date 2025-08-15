@@ -69,16 +69,16 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
 // Publish (upload) a new video
 const publishAVideo = asyncHandler(async (req, res) => {
-    console.log("hello");
+    // console.log("hello");
     const { title, description } = req.body;
     const videoFilePath = req.files?.videoFile?.[0]?.path;
     const thumbnailPath = req.files?.thumbnail?.[0]?.path;
 
     if (!title || !description || !videoFilePath || !thumbnailPath) {
-        console.log(title);
-        console.log(description);
-        console.log(videoFilePath);
-        console.log(thumbnailPath);
+        // console.log(title);
+        // console.log(description);
+        // console.log(videoFilePath);
+        // console.log(thumbnailPath);
         // console.log(title);
         throw new ApiError(400, "All fields are required");
     }

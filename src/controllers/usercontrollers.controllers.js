@@ -139,7 +139,7 @@ return res.status(200)
 const registerUser=asyncHandler( async(req,res)=>{
   let coverimageResponse=null;
   let avatarResponse=null;
-  console.log("lll");
+  // console.log("lll");
  try{
 const {username,email,fullname,password}=req.body;
 
@@ -152,7 +152,7 @@ if([username,email,fullname,password].some((item)=>item.trim()===""
 //check if user already exists
 const check= await User.findOne(
 {  $or:[{email,username}] });
-console.log(check);
+// console.log(check);
 if(check){throw new ApiError(400,"username or email already exist")};
 
 //upload images and if images are not there than handle it
@@ -219,7 +219,7 @@ await user.save();
 
 const response=await User.findById(userId).select("-password -refreshtoken");
 
-console.log(response);
+// console.log(response);
 if(response.username!=user.username)
  throw new ApiError(400,"error in finding user");
 
@@ -237,7 +237,7 @@ res.status(error.statusCode || 500).send(new ApiResponse(error.statusCode || 500
 
 
 const getCurrentUser=asyncHandler(async(req,res)=>{
-console.log("profile");
+// console.log("profile");
   try{
     const user=req.user;
     const response=await User.findById(user._id).select("-password -refreshtoken");
@@ -254,7 +254,7 @@ const updateAccountDetails=asyncHandler(async(req,res)=>{
 
   try{
     const user=req.user;
-     console.log(req.body);
+    //  console.log(req.body);
     const {fullname,email}=req.body;
 
      if (!fullname || !email) {
@@ -411,7 +411,7 @@ $project:{
 }
   }
 ])
-console.log(channelData);
+// console.log(channelData);
 if(!channelData?.length){
   throw new ApiError(400,"unable to find username");
 }
@@ -465,7 +465,7 @@ const getWatchHistory=asyncHandler(async(req,res)=>{
   if(!user){
     throw new ApiError(400,"error in fetching watch history");
   }
-  console.log(user[0]);
+  // console.log(user[0]);
   return res.status(200).json(new ApiResponse(200,user[0].watchHistory,"watch History fetched succesfuly"));
 
 
