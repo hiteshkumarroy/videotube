@@ -149,6 +149,9 @@ GET /api/v1/dashboard/stats
 GET /api/v1/dashboard/videos
 ```
 🗂 ER Diagram
+```http
+https://app.eraser.io/workspace/xlt1IcLTjN2HGN0TwJLD
+```
 
 
 ⚙️ Installation & Setup
@@ -183,6 +186,9 @@ Start the server:
 ```http
 npm run dev
 ```
+### To test API'S import "./postmantesting" in postman and test
+
+
 ⚡ Notes
 All file uploads are managed via Cloudinary.
 

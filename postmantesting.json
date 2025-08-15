@@ -1,0 +1,261 @@
+{
+  "info": {
+    "name": "VIDEOTUBE API",
+    "_postman_id": "videotube-full-collection",
+    "description": "Complete Postman collection for VIDEOTUBE backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "avatar", "type": "file" },
+                { "key": "coverimage", "type": "file" },
+                { "key": "username", "value": "testuser", "type": "text" },
+                { "key": "email", "value": "test@example.com", "type": "text" },
+                { "key": "password", "value": "password123", "type": "text" }
+              ]
+            },
+            "url": { "raw": "http://localhost:3000/api/v1/user/register" }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"email\": \"test@example.com\", \"password\": \"password123\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/user/login" }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/user/current-user" }
+          }
+        },
+        {
+          "name": "Update Account Details",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": { "mode": "raw", "raw": "{ \"username\": \"newname\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/user/updatedetails" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Videos",
+      "item": [
+        {
+          "name": "Publish Video",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "videoFile", "type": "file" },
+                { "key": "thumbnail", "type": "file" },
+                { "key": "title", "value": "My Video", "type": "text" },
+                { "key": "description", "value": "Video description", "type": "text" },
+                { "key": "category", "value": "Education", "type": "text" }
+              ]
+            },
+            "url": { "raw": "http://localhost:3000/api/v1/videos/publish" }
+          }
+        },
+        {
+          "name": "Get All Videos",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/videos" }
+          }
+        },
+        {
+          "name": "Get Video by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/videos/:videoId" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": { "mode": "raw", "raw": "{ \"text\": \"Nice video!\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/comments/:videoId" }
+          }
+        },
+        {
+          "name": "Get Video Comments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/comments/:videoId" }
+          }
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": { "mode": "raw", "raw": "{ \"text\": \"Updated comment\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/comments/c/:commentId" }
+          }
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/comments/c/:commentId" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Likes",
+      "item": [
+        {
+          "name": "Toggle Video Like",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/likes/toggle/v/:videoId" }
+          }
+        },
+        {
+          "name": "Toggle Comment Like",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/likes/toggle/c/:commentId" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Playlists",
+      "item": [
+        {
+          "name": "Create Playlist",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": { "mode": "raw", "raw": "{ \"name\": \"My Playlist\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/playlist/" }
+          }
+        },
+        {
+          "name": "Add Video to Playlist",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/playlist/add/:videoId/:playlistId" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "Toggle Subscription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/subscriptions/c/:channelId" }
+          }
+        },
+        {
+          "name": "Get Subscribed Channels",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/subscriptions/c/:channelId" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Channel Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/dashboard/stats" }
+          }
+        },
+        {
+          "name": "Get Channel Videos",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/dashboard/videos" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tweets",
+      "item": [
+        {
+          "name": "Create Tweet",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": { "mode": "raw", "raw": "{ \"text\": \"My first tweet!\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/tweets/" }
+          }
+        },
+        {
+          "name": "Get User Tweets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/tweets/user/:userId" }
+          }
+        },
+        {
+          "name": "Update Tweet",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "body": { "mode": "raw", "raw": "{ \"text\": \"Updated tweet!\" }" },
+            "url": { "raw": "http://localhost:3000/api/v1/tweets/:tweetId" }
+          }
+        },
+        {
+          "name": "Delete Tweet",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer <JWT_TOKEN>" }],
+            "url": { "raw": "http://localhost:3000/api/v1/tweets/:tweetId" }
+          }
+        }
+      ]
+    }
+  ]
+}
