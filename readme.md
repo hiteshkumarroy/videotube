@@ -89,9 +89,9 @@ PATCH /api/v1/user/updatecoverimage
 GET /api/v1/user/c/:username
 GET /api/v1/user/watchHistory
 ```
-Videos
-http
-Copy
+
+### Videos
+```http
 Edit
 GET /api/v1/videos/
 POST /api/v1/videos/publish
@@ -99,26 +99,27 @@ GET /api/v1/videos/:videoId
 PATCH /api/v1/videos/:videoId
 DELETE /api/v1/videos/:videoId
 PATCH /api/v1/videos/toggle/publish/:videoId
-Comments
-http
-Copy
-Edit
+```
+### Comments
+
+```http
+
 GET /api/v1/comments/:videoId
 POST /api/v1/comments/:videoId
 PATCH /api/v1/comments/c/:commentId
 DELETE /api/v1/comments/c/:commentId
-Likes
-http
-Copy
-Edit
+```
+### Likes
+```http
+
 POST /api/v1/likes/toggle/v/:videoId
 POST /api/v1/likes/toggle/c/:commentId
 POST /api/v1/likes/toggle/t/:tweetId
 GET /api/v1/likes/videos
-Playlists
-http
-Copy
-Edit
+```
+### Playlists
+``` http
+
 POST /api/v1/playlist/
 PATCH /api/v1/playlist/:playlistId
 DELETE /api/v1/playlist/:playlistId
@@ -126,36 +127,35 @@ GET /api/v1/playlist/:playlistId
 PATCH /api/v1/playlist/add/:videoId/:playlistId
 PATCH /api/v1/playlist/remove/:videoId/:playlistId
 GET /api/v1/playlist/user/:userId
-Subscriptions
-http
-Copy
-Edit
+```
+### Subscriptions
+```http
+
 POST /api/v1/subscriptions/c/:channelId
 GET /api/v1/subscriptions/c/:channelId
 GET /api/v1/subscriptions/u/:subscriberId
-Tweets
-http
-Copy
-Edit
+```
+### Tweets
+```http
 POST /api/v1/tweets/
 PATCH /api/v1/tweets/:tweetId
 DELETE /api/v1/tweets/:tweetId
 GET /api/v1/tweets/user/:userId
-Dashboard
-http
-Copy
-Edit
+```
+### Dashboard
+```http
+
 GET /api/v1/dashboard/stats
 GET /api/v1/dashboard/videos
+```
 🗂 ER Diagram
+
 
 ⚙️ Installation & Setup
 Clone the repository:
-
-bash
-Copy
-Edit
+```http
 git clone https://github.com/hiteshkumarroy/videotube.git
+```
 Install dependencies:
 
 bash
@@ -164,9 +164,8 @@ Edit
 npm install
 Create a .env file with your credentials:
 
-env
-Copy
-Edit
+### env
+```http
 PORT=3000
 MONGODB_URI=//your mongodb url
 REFRESH_TOKEN_SECRET=//secret
@@ -178,13 +177,12 @@ CLOUDINARY_API_KEY=//api key cloudinary
 CLOUDINARY_API_SECRET=//secret cloudinary
 NODE_ENV=development
 FRONTEND_URL= //url frontend
-
+```
 Start the server:
 
-bash
-Copy
-Edit
+```http
 npm run dev
+```
 ⚡ Notes
 All file uploads are managed via Cloudinary.
 
