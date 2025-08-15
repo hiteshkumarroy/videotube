@@ -88,6 +88,7 @@ PATCH /api/v1/user/updateavatar
 PATCH /api/v1/user/updatecoverimage
 GET /api/v1/user/c/:username
 GET /api/v1/user/watchHistory
+```
 Videos
 http
 Copy
