@@ -139,6 +139,7 @@ return res.status(200)
 const registerUser=asyncHandler( async(req,res)=>{
   let coverimageResponse=null;
   let avatarResponse=null;
+  console.log("lll");
  try{
 const {username,email,fullname,password}=req.body;
 

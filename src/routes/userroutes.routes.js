@@ -22,10 +22,10 @@ userRoute.route('/login').post(loginUser);
 userRoute.route('/changePassword').put(jwtVerify,changeCurrentPassword);
 userRoute.route('/current-user').get(jwtVerify,getCurrentUser);
 userRoute.route('/updatedetails').put(jwtVerify,updateAccountDetails);
-userRoute.route('/updateavatar').put(jwtVerify,
+userRoute.route('/updateavatar').patch(jwtVerify,
   upload.single("avatar"),
   updateUserAvatar);
-userRoute.route('/updatecoverimage').put(jwtVerify,
+userRoute.route('/updatecoverimage').patch(jwtVerify,
   upload.single("coverimage"),
   updateUserCoverImage);
 
