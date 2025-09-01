@@ -359,7 +359,7 @@ res.status(error.statusCode).send(new ApiResponse(error.statusCode,error.message
 //getwatchhistory
 const getUserChannelProfile=asyncHandler(async(req,res)=>{
 const {username}=req.params;
-if(!username?.trim()){
+if(!username){
   throw new ApiError(400,"userName invalid");
 }
 

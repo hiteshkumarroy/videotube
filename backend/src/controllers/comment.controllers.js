@@ -13,10 +13,11 @@ const getVideoComments = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid video ID")
     }
 
-    const comments = await Comment.find({ videoId })
+    const comments = await Comment.find({video: videoId })
         .sort({ createdAt: -1 }) // newest first
         .skip((page - 1) * limit)
         .limit(Number(limit))
+
 
     res.status(200).json(new ApiResponse(200, comments))
 })
